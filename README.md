@@ -43,9 +43,5 @@ refm export myrepo harvard refs.txt
 Supported styles: `harvard`, `apa` , `mla`, `ieee`, `chicago`, `vancouver`
 
 
-
-## Citation Styles
-Citation formats are defined in `styles.py`. You can add more styles as needed.
-
 ## License
 MIT
