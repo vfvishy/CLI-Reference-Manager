@@ -40,13 +40,9 @@ refm export REPONAME STYLE OUTFILE
 refm export myrepo harvard refs.txt
 ```
 
-Supported styles: `harvard`, `apa`
+Supported styles: `harvard`, `apa` , `mla`, `ieee`, `chicago`, `vancouver`
 
-### View the entire reference database
-```bash
-refm view
-```
-This will print all repositories and their contents in a readable format.
+
 
 ## Citation Styles
 Citation formats are defined in `styles.py`. You can add more styles as needed.
