@@ -4,9 +4,26 @@ import json
 import os
 from typing import Dict, Any
 import requests
-from styles import REFERENCE_STYLES
+REFERENCE_STYLES = {
+    "harvard": "{author} ({year}). {title}. {journal}, {publisher}.",
+    "apa": "{author} ({year}). {title}. {journal}. {publisher}.",
+    "mla": "{author}. \"{title}.\" {journal}, {year}, {publisher}.",
+    "chicago": "{author}. {title}. {journal}. {publisher}, {year}.",
+    "vancouver": "{author}. {title}. {journal}. {year}; {publisher}.",
+    "ieee": "{author}, \"{title},\" {journal}, {publisher}, {year}."
+}
 
-DB_PATH = "refm_db.json"
+
+def get_db_path():
+	xdg_data_home = os.environ.get("XDG_DATA_HOME")
+	if xdg_data_home:
+		base_dir = os.path.join(xdg_data_home, "refm")
+	else:
+		base_dir = os.path.expanduser("~/.local/share/refm")
+	os.makedirs(base_dir, exist_ok=True)
+	return os.path.join(base_dir, "refm_db.json")
+
+DB_PATH = get_db_path()
 
 def load_db() -> Dict[str, Any]:
 	if not os.path.exists(DB_PATH):
@@ -79,6 +96,8 @@ def main():
 		export_repo(db, sys.argv[2], sys.argv[3], sys.argv[4])
 	else:
 		print("Invalid command or arguments.")
+
+
 
 if __name__ == "__main__":
 	main()

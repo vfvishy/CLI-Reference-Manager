@@ -12,33 +12,39 @@ This project provides a command-line tool for managing literature references in 
 - Python 3
 - `requests` library (install with `pip install requests`)
 
+## How to Install
+```bash 
+sudo cp refm.py /usr/local/bin/refm
+sudo chmod +x /usr/local/bin/refm
+``` 
+
 ## Usage
 
 ### Create a repository
 ```bash
-python refm.py makr REPONAME
+refm makr REPONAME
 ```
 
 ### Add a paper by DOI
 ```bash
-python refm.py add DOI REPONAME
+refm add DOI REPONAME
 # Example:
-python refm.py add 10.1038/nphys1170 myrepo
+refm add 10.1038/nphys1170 myrepo
 ```
 
 
 ### Export repository to a file in a reference style
 ```bash
-python refm.py export REPONAME STYLE OUTFILE
+refm export REPONAME STYLE OUTFILE
 # Example:
-python refm.py export myrepo harvard refs.txt
+refm export myrepo harvard refs.txt
 ```
 
 Supported styles: `harvard`, `apa`
 
 ### View the entire reference database
 ```bash
-python refm.py view
+refm view
 ```
 This will print all repositories and their contents in a readable format.
 
