@@ -4,13 +4,23 @@ import json
 import os
 from typing import Dict, Any
 import requests
+
 REFERENCE_STYLES = {
-    "harvard": "{author} ({year}). {title}. {journal}, {publisher}.",
-    "apa": "{author} ({year}). {title}. {journal}. {publisher}.",
-    "mla": "{author}. \"{title}.\" {journal}, {year}, {publisher}.",
-    "chicago": "{author}. {title}. {journal}. {publisher}, {year}.",
-    "vancouver": "{author}. {title}. {journal}. {year}; {publisher}.",
-    "ieee": "{author}, \"{title},\" {journal}, {publisher}, {year}."
+	"harvard": "{author} ({year}). {title}. {journal}, {publisher}.",
+	"apa": "{author} ({year}). {title}. {journal}. {publisher}.",
+	"mla": "{author}. \"{title}.\" {journal}, {year}, {publisher}.",
+	"chicago": "{author}. {title}. {journal}. {publisher}, {year}.",
+	"vancouver": "{author}. {title}. {journal}. {year}; {publisher}.",
+	"ieee": "{author}, \"{title},\" {journal}, {publisher}, {year}."
+}
+
+IN_TEXT_CITATIONS = {
+	"harvard": "({author}, {year})",
+	"apa": "({author}, {year})",
+	"mla": "({author} {year})",
+	"chicago": "({author} {year})",
+	"vancouver": "[{author} {year}]",
+	"ieee": "[{author}, {year}]"
 }
 
 
@@ -82,9 +92,23 @@ def export_repo(db, repo, style, out_file):
 			f.write(fmt.format(**ref) + "\n")
 	print(f"Exported '{repo}' to '{out_file}' in {style} style.")
 
+
+def export_short_citation(db, repo, style, out_file):
+	if repo not in db:
+		print(f"Repository '{repo}' does not exist.")
+		return
+	if style not in IN_TEXT_CITATIONS:
+		print(f"Style '{style}' not supported for in-text citation.")
+		return
+	fmt = IN_TEXT_CITATIONS[style]
+	with open(out_file, "w") as f:
+		for ref in db[repo]:
+			f.write(fmt.format(**ref) + "\n")
+	print(f"Exported short citations for '{repo}' to '{out_file}' in {style} style.")
+
 def main():
 	if len(sys.argv) < 3:
-		print("Usage:\n  refm makr REPONAME\n  refm add DOI REPONAME\n  refm export REPONAME STYLE OUTFILE")
+		print("Usage:\n  refm makr REPONAME\n  refm add DOI REPONAME\n  refm export REPONAME STYLE OUTFILE\n  refm shortc REPONAME STYLE OUTFILE")
 		return
 	cmd = sys.argv[1]
 	db = load_db()
@@ -94,6 +118,8 @@ def main():
 		add_paper(db, sys.argv[3], sys.argv[2])
 	elif cmd == "export" and len(sys.argv) == 5:
 		export_repo(db, sys.argv[2], sys.argv[3], sys.argv[4])
+	elif cmd == "shortc" and len(sys.argv) == 5:
+		export_short_citation(db, sys.argv[2], sys.argv[3], sys.argv[4])
 	else:
 		print("Invalid command or arguments.")
 
