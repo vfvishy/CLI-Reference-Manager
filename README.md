@@ -33,6 +33,7 @@ refm add 10.1038/nphys1170 myrepo
 ```
 
 
+
 ### Export repository to a file in a reference style
 ```bash
 refm export REPONAME STYLE OUTFILE
@@ -40,8 +41,16 @@ refm export REPONAME STYLE OUTFILE
 refm export myrepo harvard refs.txt
 ```
 
-Supported styles: `harvard`, `apa` , `mla`, `ieee`, `chicago`, `vancouver`
+Supported styles: `harvard`, `apa`, `mla`, `chicago`, `vancouver`, `ieee`
 
+### Export in-text citations (short citations)
+```bash
+refm shortc REPONAME STYLE OUTFILE
+# Example:
+refm shortc myrepo apa short.txt
+```
+
+Supported in-text citation styles: `harvard`, `apa`, `mla`, `chicago`, `vancouver`, `ieee`
 
 ## License
 MIT
